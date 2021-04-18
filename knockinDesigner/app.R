@@ -43,7 +43,7 @@ ui <- shinyUI(fluidPage(
         column(6, textInput("Mutation", label = "Mutation (e.g. A123C)", value = ""))
       ),
       
-      fluidRow(column(6, tags$a("Demo input app", href = "https://crisprtools.shinyapps.io/tp53_R144H_demo/", style="color:blue; font-size: 16px"))),
+      fluidRow(column(6, tags$a("Demo input app", href = "http://www.knockindesign.net/shiny/tp53_R144H_demo/", style="color:blue; font-size: 16px"))),
       tags$p(),
       
       HTML('<button type="button" class="btn btn-primary" style="width: 100%; font-size: 14px">Gene sequence data</button><p></p>'),
@@ -547,6 +547,13 @@ server <- function(input, output, session) {
   # END shinyFeedback section
   #################################
   
+  ###################################
+  # Store basic run data for analysis
+  ###################################
+
+  write_designs <- reactive({
+    write_csv(data.frame(Gene = input$gene, Mutation = input$Mutation, Date = Sys.Date()), path = "c:/Users/Administrator/Documents/GitHub/shiny-server/knockinDesigner/designs.csv", append = TRUE)
+  })
   
   #####################################################################
   # Lists for storing codons for each amino acid and Restriction sites
@@ -4310,6 +4317,10 @@ server <- function(input, output, session) {
       
       codon_pos <- codon_pos - offset
       pam_pos <- pam_pos - offset
+      
+      ################################################
+      # write the design details
+      write_lines(paste(input$gene, input$Mutation, Sys.Date()), "designs.txt", append = TRUE)
       
       ###############################################
       # write the report header in such a way that it overwrites the previous data
