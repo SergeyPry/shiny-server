@@ -2159,7 +2159,7 @@ server <- function(input, output, session) {
     outputList
   }
   
-  # function to 
+  # function to write prime editing inputs designs
   writePEdesigns <- function(gene, mutation, orig_codon, coords, outputList, forw_primer_pos, rev_primer_pos, codon_pos){
     
     ################# PrimeDesign and pegFinder inputs file generation ################
